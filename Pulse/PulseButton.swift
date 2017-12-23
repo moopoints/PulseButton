@@ -13,21 +13,15 @@ class PulseButton: UIButton {
     let buttonFillLayer = CAShapeLayer()
     let pulsatingLayer = CAShapeLayer()
     
-
-    
-    //Fill colors
     var buttonFillLayerFillColor:   UIColor = .buttonLayerFillColor                                               { didSet { buttonFillLayer.fillColor = buttonFillLayerFillColor.cgColor } }
     var pulsatingLayerFillColor:   UIColor = .pulsatingLayerFillColor                                             { didSet { pulsatingLayer.fillColor = pulsatingLayerFillColor.cgColor } }
 
-    //Stroke start and end
     var buttonFillLayerStrokeStart: CGFloat = 0                                                                   { didSet { buttonFillLayer.strokeStart = buttonFillLayerStrokeStart } }
     var pulsatingLayerStrokeStart: CGFloat = 0                                                                    { didSet { pulsatingLayer.strokeStart = pulsatingLayerStrokeStart } }
     
     var buttonFillLayerStrokeEnd:   CGFloat = 1                                                                   { didSet { buttonFillLayer.strokeEnd = buttonFillLayerStrokeEnd } }
     var pulsatingLayerStrokeEnd:   CGFloat = 1                                                                    { didSet { pulsatingLayer.strokeEnd = pulsatingLayerStrokeEnd } }
     
-    
-
 
     //INIT
     override init(frame: CGRect) {
@@ -52,8 +46,6 @@ class PulseButton: UIButton {
 
     //DRAW PATHS
     private func setupLayout() {
-        print("setupLayout")
-  
         pulsatingLayer.strokeColor = UIColor.clear.cgColor
         pulsatingLayer.fillColor = buttonFillLayerFillColor.cgColor
         pulsatingLayer.strokeStart = buttonFillLayerStrokeStart
@@ -78,8 +70,6 @@ class PulseButton: UIButton {
         let radius = (min(bounds.width, bounds.height)) / 2
         let path = UIBezierPath(arcCenter: arcCenter, radius: radius, startAngle: 0, endAngle: 2*CGFloat.pi, clockwise: true).cgPath
     
-
-        //Set the frame in order to rotate the outer circular paths to start at 12 o'clock, necessary to pulse around arcCenter
         pulsatingLayer.transform = CATransform3DIdentity
         pulsatingLayer.frame = bounds
         pulsatingLayer.transform = CATransform3DMakeRotation(-CGFloat.pi/2, 0, 0, 1)
@@ -107,13 +97,6 @@ class PulseButton: UIButton {
         opacityAnimation.duration = 0.8
         opacityAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
         pulsatingLayer.add(opacityAnimation, forKey: "changing opacity")
-
-//        let springAnimation = CABasicAnimation(keyPath: "transform.scale")
-//        springAnimation.toValue = 0.5
-//        springAnimation.duration = 0.1
-//        springAnimation.autoreverses = true
-//        springAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
-//        buttonFillLayer.add(springAnimation, forKey: "springs")
     }
     
 }

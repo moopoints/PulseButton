@@ -20,8 +20,6 @@ class ViewController: UIViewController {
         return button
     }()
     
-
-    
     let iconImageView: UIImageView = {
         let img = UIImage(named: "icon_check")
         let imageView = UIImageView(image: img)
@@ -45,14 +43,9 @@ class ViewController: UIViewController {
         iconImageView.centerYAnchor.constraint(equalTo: button.centerYAnchor).isActive = true
     }
     
-
-    
-    
     
     @objc func didPressButton() {
-        print("Pressed button")
         button.isUserInteractionEnabled = false
-        
         button.animateCircle()
 
         UIView.animate(withDuration: 0.1, animations: {
@@ -64,15 +57,5 @@ class ViewController: UIViewController {
             self.button.isUserInteractionEnabled = true
         }
     }
-    
-
-    
-    
-    
-    
-    
-
-
-
 }
 
