@@ -76,12 +76,16 @@ class PulseButton: UIButton {
         //Parameters for layers
         let arcCenter = CGPoint(x: bounds.midX, y: bounds.midY)
         let radius = (min(bounds.width, bounds.height)) / 2
-        let anchorPoint = CGPoint(x: bounds.midX, y: bounds.midY)
         let path = UIBezierPath(arcCenter: arcCenter, radius: radius, startAngle: 0, endAngle: 2*CGFloat.pi, clockwise: true).cgPath
-        
-        print("arcCenter \(arcCenter)")
+    
 
-        pulsatingLayer.anchorPoint = anchorPoint
+        //Set the frame in order to rotate the outer circular paths to start at 12 o'clock, necessary to pulse around arcCenter
+        pulsatingLayer.transform = CATransform3DIdentity
+        pulsatingLayer.frame = bounds
+        pulsatingLayer.transform = CATransform3DMakeRotation(-CGFloat.pi/2, 0, 0, 1)
+        buttonFillLayer.transform = CATransform3DIdentity
+        buttonFillLayer.frame = bounds
+        buttonFillLayer.transform = CATransform3DMakeRotation(-CGFloat.pi/2, 0, 0, 1)
         
         pulsatingLayer.path = path
         buttonFillLayer.path = path
@@ -91,20 +95,21 @@ class PulseButton: UIButton {
 
     func animateCircle() {
         let basicAnimation = CABasicAnimation(keyPath: "transform.scale")
-        basicAnimation.toValue = 1.5
-        basicAnimation.duration = 0.6
+        basicAnimation.fromValue = 1
+        basicAnimation.toValue = 1.4
+        basicAnimation.duration = 0.8
         basicAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
         pulsatingLayer.add(basicAnimation, forKey: "pulsing")
 
-//        let opacityAnimation = CABasicAnimation(keyPath: "opacity")
-//        opacityAnimation.fromValue = 1
-//        opacityAnimation.toValue = 0.2
-//        opacityAnimation.duration = 0.8
-//        opacityAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
-//        pulsatingLayer.add(opacityAnimation, forKey: "changing opacity")
-//
+        let opacityAnimation = CABasicAnimation(keyPath: "opacity")
+        opacityAnimation.fromValue = 0.6
+        opacityAnimation.toValue = 0
+        opacityAnimation.duration = 0.8
+        opacityAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+        pulsatingLayer.add(opacityAnimation, forKey: "changing opacity")
+
 //        let springAnimation = CABasicAnimation(keyPath: "transform.scale")
-//        springAnimation.toValue = 0.95
+//        springAnimation.toValue = 0.5
 //        springAnimation.duration = 0.1
 //        springAnimation.autoreverses = true
 //        springAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)

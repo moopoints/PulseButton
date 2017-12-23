@@ -37,16 +37,12 @@ class ViewController: UIViewController {
         view.addSubview(button)
         button.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         button.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        button.heightAnchor.constraint(equalToConstant: 200).isActive = true
-        button.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        button.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        button.widthAnchor.constraint(equalToConstant: 100).isActive = true
         
         view.addSubview(iconImageView)
         iconImageView.centerXAnchor.constraint(equalTo: button.centerXAnchor).isActive = true
         iconImageView.centerYAnchor.constraint(equalTo: button.centerYAnchor).isActive = true
-//        button.heightAnchor.constraint(equalToConstant: 200).isActive = true
-//        button.widthAnchor.constraint(equalToConstant: 200).isActive = true
-    
- 
     }
     
 
@@ -55,7 +51,18 @@ class ViewController: UIViewController {
     
     @objc func didPressButton() {
         print("Pressed button")
+        button.isUserInteractionEnabled = false
+        
         button.animateCircle()
+
+        UIView.animate(withDuration: 0.1, animations: {
+            self.button.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
+            self.iconImageView.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
+        }) { (true) in
+            UIView.animate(withDuration: 0.7, delay: 0, usingSpringWithDamping: 0.2, initialSpringVelocity: 3.0, options: .allowUserInteraction, animations: {
+                [weak self] in self?.button.transform = .identity; self?.iconImageView.transform = .identity}, completion: nil)
+            self.button.isUserInteractionEnabled = true
+        }
     }
     
 
